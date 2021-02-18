@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2020-12-22T00:14:23.983842+00:00",
+  "timestamp": "2021-02-18T00:08:50.627070+00:00",
   "repo": "tlswg/external-psk-design-team",
   "labels": [
     {
@@ -3314,6 +3314,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 67,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc0Mjk2NTEw",
+      "title": "Ben smyth comments",
+      "url": "https://github.com/tlswg/external-psk-design-team/pull/67",
+      "state": "OPEN",
+      "author": "russhousley",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolve comments from Ben Smyth.",
+      "createdAt": "2021-02-16T15:58:12Z",
+      "updatedAt": "2021-02-16T15:58:12Z",
+      "baseRepository": "tlswg/external-psk-design-team",
+      "baseRefName": "master",
+      "baseRefOid": "77186dc5c63bc7291daded7ef3bab7c86ad6b937",
+      "headRepository": "russhousley/external-psk-design-team",
+      "headRefName": "ben-smyth-comments",
+      "headRefOid": "750c4b9306357984d55c51bba6317c1a49710f73",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
