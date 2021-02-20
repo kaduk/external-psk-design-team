@@ -5,12 +5,12 @@
 tls                                                           R. Housley
 Internet-Draft                                            Vigil Security
 Intended status: Informational                                J. Hoyland
-Expires: 24 June 2021                                    Cloudflare Ltd.
+Expires: 24 August 2021                                  Cloudflare Ltd.
                                                                 M. Sethi
                                                                 Ericsson
                                                                C.A. Wood
                                                               Cloudflare
-                                                        21 December 2020
+                                                        20 February 2021
 
 
                  Guidance for External PSK Usage in TLS
@@ -19,14 +19,15 @@ Expires: 24 June 2021                                    Cloudflare Ltd.
 Abstract
 
    This document provides usage guidance for external Pre-Shared Keys
-   (PSKs) in TLS.  It lists TLS security properties provided by PSKs
-   under certain assumptions and demonstrates how violations of these
-   assumptions lead to attacks.  This document also discusses PSK use
-   cases, provisioning processes, and TLS stack implementation support
-   in the context of these assumptions.  It provides advice for
-   applications in various use cases to help meet these assumptions.
-   Privacy and security properties not provided by PSKs are also
-   included.
+   (PSKs) in Transport Layer Security (TLS) version 1.3 as defined in
+   RFC 8446.  It lists TLS security properties provided by PSKs under
+   certain assumptions and demonstrates how violations of these
+   assumptions lead to attacks.  It discusses PSK use cases,
+   provisioning processes, and TLS stack implementation support in the
+   context of these assumptions.  It provides advice for applications in
+   various use cases to help meet these assumptions.  It also lists the
+   privacy and security properties that are not provided by TLS when
+   external PSKs are used.
 
 Discussion Venues
 
@@ -50,11 +51,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 June 2021.
+   This Internet-Draft will expire on 24 August 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -92,16 +93,19 @@ Table of Contents
 
 1.  Introduction
 
+   This document provides guidance on the use of external Pre-Shared
+   Keys (PSKs) in Transport Layer Security (TLS) version 1.3 [RFC8446].
+   This document lists TLS security properties provided by PSKs under
+   certain assumptions and demonstrates how violations of these
+   assumptions lead to attacks.  This document discusses PSK use cases,
+   provisioning processes, and TLS stack implementation support in the
+   context of these assumptions.  This document also provides advice for
+   applications in various use cases to help meet these assumptions.
+
    There are many resources that provide guidance for password
    generation and verification aimed towards improving security.
    However, there is no such equivalent for external Pre-Shared Keys
-   (PSKs) in TLS.  This document aims to reduce that gap.  It lists TLS
-   security properties provided by PSKs under certain assumptions and
-   demonstrates how violations of these assumptions lead to attacks.
-   This document also discusses PSK use cases, provisioning processes,
-   and TLS stack implementation support in the context of these
-   assumptions.  It provides advice for applications in various use
-   cases to help meet these assumptions.
+   (PSKs) in TLS.  This document aims to reduce that gap.
 
    The guidance provided in this document is applicable across TLS
    [RFC8446], DTLS [I-D.ietf-tls-dtls13], and Constrained TLS
@@ -111,8 +115,8 @@ Table of Contents
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in BCP
-   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
 3.  Notation
@@ -130,17 +134,22 @@ Table of Contents
    connections using previously established keys.  These keys do not
    provide protection of endpoint identities (see Section 5), nor do
    they provide non-repudiation (one endpoint in a connection can deny
-   the conversation).  PSK authentication security implicitly assumes
-   one fundamental property: each PSK is known to exactly one client and
-   one server, and that these never switch roles.  If this assumption is
-   violated, then the security properties of TLS are severely weakened.
+   the conversation).  Protection of endpoint identities and protection
+   against an endpoint denying the conversation are possible when a
+   fresh TLS handshake is performed.
+
+   PSK authentication security implicitly assumes one fundamental
+   property: each PSK is known to exactly one client and one server, and
+   that these never switch roles.  If this assumption is violated, then
+   the security properties of TLS are severely weakened as discussed
+   below.
 
 4.1.  Shared PSKs
 
    As discussed in Section 6, there are use cases where it is desirable
    for multiple clients or multiple servers to share a PSK.  If this is
-   done naively by having all members share a common key, then TLS only
-   authenticates the entire group, and the security of the overall
+   done naively by having all members share a common key, then TLS
+   authenticates only group membership, and the security of the overall
    system is inherently rather brittle.  There are a number of obvious
    weaknesses here:
 
@@ -158,10 +167,12 @@ Table of Contents
 
    Additionally, a malicious non-member can reroute handshakes between
    honest group members to connect them in unintended ways, as described
-   below.  (Note that this class of attack is not possible if each
-   member uses the SNI extension [RFC6066] and terminates the connection
-   on mismatch.  See [Selfie] for details.)  Let the group of peers who
-   know the key be "A", "B", and "C".  The attack proceeds as follows:
+   below.  Note that this class of attack is not possible if each member
+   uses the SNI extension [RFC6066] and terminates the connection on
+   mismatch.  See [Selfie] for details.
+
+   To illustrate the rerouting attack, consider the group of peers who
+   know the PSK be "A", "B", and "C".  The attack proceeds as follows:
 
    1.  "A" sends a "ClientHello" to "B".
 
@@ -186,8 +197,8 @@ Table of Contents
 
    Finally, in addition to these weaknesses, sharing a PSK across nodes
    may negatively affect deployments.  For example, revocation of
-   individual group members is not possible without changing the
-   authentication key for all members.
+   individual group members is not possible without changing
+   establishing a new PSK for all of the non-revoked members.
 
 4.2.  PSK Entropy
 
@@ -481,33 +492,34 @@ Table of Contents
               Rescorla, E., Tschofenig, H., and N. Modadugu, "The
               Datagram Transport Layer Security (DTLS) Protocol Version
               1.3", Work in Progress, Internet-Draft, draft-ietf-tls-
-              dtls13-39, 2 November 2020, <http://www.ietf.org/internet-
-              drafts/draft-ietf-tls-dtls13-39.txt>.
+              dtls13-41, 7 February 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
+              dtls13-41.txt>.
 
    [I-D.ietf-tls-external-psk-importer]
-              Benjamin, D. and C. Wood, "Importing External PSKs for
+              Benjamin, D. and C. A. Wood, "Importing External PSKs for
               TLS", Work in Progress, Internet-Draft, draft-ietf-tls-
               external-psk-importer-06, 3 December 2020,
-              <http://www.ietf.org/internet-drafts/draft-ietf-tls-
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
               external-psk-importer-06.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
+              <https://datatracker.ietf.org/doc/html/rfc2119>.
 
    [RFC6066]  Eastlake 3rd, D., "Transport Layer Security (TLS)
               Extensions: Extension Definitions", RFC 6066,
               DOI 10.17487/RFC6066, January 2011,
-              <https://www.rfc-editor.org/info/rfc6066>.
+              <https://datatracker.ietf.org/doc/html/rfc6066>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+              May 2017, <https://datatracker.ietf.org/doc/html/rfc8174>.
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/info/rfc8446>.
+              <https://datatracker.ietf.org/doc/html/rfc8446>.
 
 10.2.  Informative References
 
@@ -524,28 +536,30 @@ Table of Contents
    [I-D.ietf-tls-ctls]
               Rescorla, E., Barnes, R., and H. Tschofenig, "Compact TLS
               1.3", Work in Progress, Internet-Draft, draft-ietf-tls-
-              ctls-01, 2 November 2020, <http://www.ietf.org/internet-
-              drafts/draft-ietf-tls-ctls-01.txt>.
+              ctls-01, 2 November 2020,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
+              ctls-01.txt>.
 
    [I-D.irtf-cfrg-cpace]
               Abdalla, M., Haase, B., and J. Hesse, "CPace, a balanced
               composable PAKE", Work in Progress, Internet-Draft, draft-
-              irtf-cfrg-cpace-00, 28 July 2020, <http://www.ietf.org/
-              internet-drafts/draft-irtf-cfrg-cpace-00.txt>.
+              irtf-cfrg-cpace-01, 24 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
+              cpace-01.txt>.
 
    [I-D.irtf-cfrg-opaque]
-              Krawczyk, H., Lewi, K., and C. Wood, "The OPAQUE
+              Krawczyk, H., Lewi, K., and C. A. Wood, "The OPAQUE
               Asymmetric PAKE Protocol", Work in Progress, Internet-
-              Draft, draft-irtf-cfrg-opaque-01, 2 November 2020,
-              <http://www.ietf.org/internet-drafts/draft-irtf-cfrg-
-              opaque-01.txt>.
+              Draft, draft-irtf-cfrg-opaque-02, 5 February 2021,
+              <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
+              opaque-02.txt>.
 
    [I-D.mattsson-emu-eap-tls-psk]
-              Mattsson, J., Sethi, M., Aura, T., and O. Friel, "EAP-TLS
-              with PSK Authentication (EAP-TLS-PSK)", Work in Progress,
-              Internet-Draft, draft-mattsson-emu-eap-tls-psk-00, 9 March
-              2020, <http://www.ietf.org/internet-drafts/draft-mattsson-
-              emu-eap-tls-psk-00.txt>.
+              Mattsson, J. P., Sethi, M., Aura, T., and O. Friel, "EAP-
+              TLS with PSK Authentication (EAP-TLS-PSK)", Work in
+              Progress, Internet-Draft, draft-mattsson-emu-eap-tls-psk-
+              00, 9 March 2020, <https://datatracker.ietf.org/doc/html/
+              draft-mattsson-emu-eap-tls-psk-00.txt>.
 
    [Krawczyk] Krawczyk, H., "SIGMA: The ‘SIGn-and-MAc’ Approach to
               Authenticated Diffie-Hellman and Its Use in the IKE
@@ -563,38 +577,38 @@ Table of Contents
    [RFC2865]  Rigney, C., Willens, S., Rubens, A., and W. Simpson,
               "Remote Authentication Dial In User Service (RADIUS)",
               RFC 2865, DOI 10.17487/RFC2865, June 2000,
-              <https://www.rfc-editor.org/info/rfc2865>.
+              <https://datatracker.ietf.org/doc/html/rfc2865>.
 
    [RFC3748]  Aboba, B., Blunk, L., Vollbrecht, J., Carlson, J., and H.
               Levkowetz, Ed., "Extensible Authentication Protocol
               (EAP)", RFC 3748, DOI 10.17487/RFC3748, June 2004,
-              <https://www.rfc-editor.org/info/rfc3748>.
+              <https://datatracker.ietf.org/doc/html/rfc3748>.
 
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
               Unique IDentifier (UUID) URN Namespace", RFC 4122,
               DOI 10.17487/RFC4122, July 2005,
-              <https://www.rfc-editor.org/info/rfc4122>.
+              <https://datatracker.ietf.org/doc/html/rfc4122>.
 
    [RFC4279]  Eronen, P., Ed. and H. Tschofenig, Ed., "Pre-Shared Key
               Ciphersuites for Transport Layer Security (TLS)",
               RFC 4279, DOI 10.17487/RFC4279, December 2005,
-              <https://www.rfc-editor.org/info/rfc4279>.
+              <https://datatracker.ietf.org/doc/html/rfc4279>.
 
    [RFC6614]  Winter, S., McCauley, M., Venaas, S., and K. Wierenga,
               "Transport Layer Security (TLS) Encryption for RADIUS",
               RFC 6614, DOI 10.17487/RFC6614, May 2012,
-              <https://www.rfc-editor.org/info/rfc6614>.
+              <https://datatracker.ietf.org/doc/html/rfc6614>.
 
    [RFC7925]  Tschofenig, H., Ed. and T. Fossati, "Transport Layer
               Security (TLS) / Datagram Transport Layer Security (DTLS)
               Profiles for the Internet of Things", RFC 7925,
               DOI 10.17487/RFC7925, July 2016,
-              <https://www.rfc-editor.org/info/rfc7925>.
+              <https://datatracker.ietf.org/doc/html/rfc7925>.
 
    [RFC8773]  Housley, R., "TLS 1.3 Extension for Certificate-Based
               Authentication with an External Pre-Shared Key", RFC 8773,
               DOI 10.17487/RFC8773, March 2020,
-              <https://www.rfc-editor.org/info/rfc8773>.
+              <https://datatracker.ietf.org/doc/html/rfc8773>.
 
    [Selfie]   Drucker, N. and S. Gueron, "Selfie: reflections on TLS 1.3
               with PSK", 2019, <https://eprint.iacr.org/2019/347.pdf>.
