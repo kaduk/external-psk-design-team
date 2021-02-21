@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-18T00:08:50.627070+00:00",
+  "timestamp": "2021-02-21T00:08:48.948739+00:00",
   "repo": "tlswg/external-psk-design-team",
   "labels": [
     {
@@ -3320,26 +3320,210 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTc0Mjk2NTEw",
       "title": "Ben smyth comments",
       "url": "https://github.com/tlswg/external-psk-design-team/pull/67",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "russhousley",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolve comments from Ben Smyth.",
       "createdAt": "2021-02-16T15:58:12Z",
-      "updatedAt": "2021-02-16T15:58:12Z",
+      "updatedAt": "2021-02-20T23:25:02Z",
       "baseRepository": "tlswg/external-psk-design-team",
       "baseRefName": "master",
       "baseRefOid": "77186dc5c63bc7291daded7ef3bab7c86ad6b937",
       "headRepository": "russhousley/external-psk-design-team",
       "headRefName": "ben-smyth-comments",
-      "headRefOid": "750c4b9306357984d55c51bba6317c1a49710f73",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "headRefOid": "d9d2a5db27b3dd94f813f3072e7077d16e496d66",
+      "closedAt": "2021-02-20T21:01:42Z",
+      "mergedAt": "2021-02-20T21:01:42Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "ae2227780a40b3f21b6025f6fbda561d0c665ed5"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@russhousley can you please cut a new version of the draft?",
+          "createdAt": "2021-02-20T21:01:52Z",
+          "updatedAt": "2021-02-20T21:01:52Z"
+        },
+        {
+          "author": "russhousley",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Done.  Revision -02 has been submitted.",
+          "createdAt": "2021-02-20T21:20:01Z",
+          "updatedAt": "2021-02-20T21:20:01Z"
+        },
+        {
+          "author": "russhousley",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I am getting a permission error when I try to set the tag for \"draft-ietf-tls-external-psk-guidance-02\".  Everything else is done, and I have used my local file to submit the Internet-Draft.  Please set the tag when you have a minute.",
+          "createdAt": "2021-02-20T23:25:02Z",
+          "updatedAt": "2021-02-20T23:25:02Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0Nzc4NTcw",
+          "commit": {
+            "abbreviatedOid": "750c4b9"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2021-02-20T19:21:24Z",
+          "updatedAt": "2021-02-20T19:24:13Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "Can we revert this particular change? (cc @cbartle891)",
+              "createdAt": "2021-02-20T19:21:24Z",
+              "updatedAt": "2021-02-20T20:23:35Z"
+            },
+            {
+              "originalPosition": 66,
+              "body": "What is the point of this new text?",
+              "createdAt": "2021-02-20T19:24:04Z",
+              "updatedAt": "2021-02-20T20:23:35Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0NzgyMTgw",
+          "commit": {
+            "abbreviatedOid": "750c4b9"
+          },
+          "author": "russhousley",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-20T20:14:45Z",
+          "updatedAt": "2021-02-20T20:14:45Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "This addresses a comment.  It you want to keep it, it belongs later in the Introduction.",
+              "createdAt": "2021-02-20T20:14:45Z",
+              "updatedAt": "2021-02-20T20:23:35Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0NzgyMjg5",
+          "commit": {
+            "abbreviatedOid": "750c4b9"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-20T20:16:23Z",
+          "updatedAt": "2021-02-20T20:16:23Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "That's fine then. Can you please move it to some place later in the intro? (I just don't want to lose it.)",
+              "createdAt": "2021-02-20T20:16:23Z",
+              "updatedAt": "2021-02-20T20:23:35Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0NzgyMzY5",
+          "commit": {
+            "abbreviatedOid": "750c4b9"
+          },
+          "author": "russhousley",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-20T20:17:42Z",
+          "updatedAt": "2021-02-20T20:17:42Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Look at the two sentences that come before this one.  Those sentences say that the PSK does not offer these things, so if you need these things, a fresh handshake is the way to get them.",
+              "createdAt": "2021-02-20T20:17:42Z",
+              "updatedAt": "2021-02-20T20:23:35Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0NzgyODAy",
+          "commit": {
+            "abbreviatedOid": "d9d2a5d"
+          },
+          "author": "russhousley",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-20T20:24:16Z",
+          "updatedAt": "2021-02-20T20:24:16Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "I put it in the second paragraph in the intro.",
+              "createdAt": "2021-02-20T20:24:16Z",
+              "updatedAt": "2021-02-20T20:24:16Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0NzgzODAx",
+          "commit": {
+            "abbreviatedOid": "d9d2a5d"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-20T20:39:24Z",
+          "updatedAt": "2021-02-20T20:39:25Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Yes, I get that, but that seems obvious. Does it need to be said explicitly? ",
+              "createdAt": "2021-02-20T20:39:25Z",
+              "updatedAt": "2021-02-20T20:39:25Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0Nzg1MTAy",
+          "commit": {
+            "abbreviatedOid": "d9d2a5d"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-20T21:01:33Z",
+          "updatedAt": "2021-02-20T21:01:34Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "(I do not feel strongly about this, so let's just land it.)",
+              "createdAt": "2021-02-20T21:01:33Z",
+              "updatedAt": "2021-02-20T21:01:34Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk0Nzg1MTA3",
+          "commit": {
+            "abbreviatedOid": "d9d2a5d"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-02-20T21:01:38Z",
+          "updatedAt": "2021-02-20T21:01:38Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
